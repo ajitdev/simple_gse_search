@@ -1,0 +1,126 @@
+<?php
+/**
+ * @file
+ * Module file for Simple GSE Search
+ */
+
+/**
+ * Implements hook_menu().
+ *
+ * IDEA: Use the ctools page manager API to define a custom page at /search
+ */
+function simple_gse_search_menu() {
+  $items['search'] = array(
+    'title' => t('Search Results'),
+    'page callback' => 'simple_gse_search_page',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add setting for search id (CX) value to site info settings page. This can
+ * also be set as a $conf variable in settings.php.
+ */
+function simple_gse_search_form_system_site_information_settings_alter(&$form, &$form_state) {
+  $form['simple_gse_search'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Simple GSE Search'),
+  );
+
+  $form['simple_gse_search']['simple_gse_search_cx'] = array(
+    '#type' => 'textfield',
+    '#title' => t('GSE Search ID'),
+    '#default_value' => variable_get('simple_gse_search_cx', ''),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function simple_gse_search_block_info() {
+  $blocks['simple_gse_search_form'] = array(
+    'info'  => t('Simple GSE Search form block'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function simple_gse_search_block_view($delta = '') {
+  $block = array();
+
+  if ($delta === 'simple_gse_search_form') {
+    if (isset($_GET['s'])) {
+      $default_term = $_GET['s'];
+    }
+    else {
+      $default_term = '';
+    }
+
+    $block['subject'] = '';
+    $block['content'] = drupal_get_form('simple_gse_search_form', $default_term);
+  }
+
+  return $block;
+}
+
+/**
+ * Search form. Used as the content for the custom block.
+ */
+function simple_gse_search_form($form, &$form_state, $default_value = '') {
+  $form = array();
+
+  $form['s'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search'),
+    '#default_value' => $default_value,
+    '#attributes' => array('placeholder' => 'Search site...', 'class' => array('SearchForm-input')),
+    '#theme_wrappers' => array(),
+    '#size' => NULL,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'go',
+    '#name' => '',
+    '#attributes' => array('class' => array('SearchForm-submit')),
+  );
+
+  $form['#attributes'] = array('class' => array('SearchForm'));
+  $form['#action'] = url('search');
+  $form['#method'] = 'get';
+  $form['#pre_render'][] = 'simple_gse_search_form_pre_render';
+
+  return $form;
+}
+
+/**
+ * Pre-render function for the search form.
+ *
+ * Since the form GETs rather than POSTs, this will remove a bunch of Drupal-
+ * specific paramters.
+ */
+function simple_gse_search_form_pre_render($form) {
+  unset($form['form_token']);
+  unset($form['form_build_id']);
+  unset($form['form_id']);
+  return $form;
+}
+
+/**
+ * Page callback for the search results.
+ */
+function simple_gse_search_page() {
+  drupal_add_js(array('simple_gse_search' => array('simple_gse_search_cx' => variable_get('simple_gse_search_cx'))), 'setting');
+  drupal_add_js(drupal_get_path('module','simple_gse_search') . '/simple_gse_search.js');
+
+  $content = '<gcse:searchresults-only queryParameterName="s" linktarget="_parent">Please make sure javascript is enabled to see the search results.</gcse:searchresults-only>';
+
+  return $content;
+}
