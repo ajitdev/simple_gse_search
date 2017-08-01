@@ -1,0 +1,19 @@
+{
+    "name": "colab-coop/simple_gse_search",
+    "type": "module",
+    "description": "Provides basic integration with Google Custom Search Engine",
+    "authors": [
+        {
+            "name": "Jeff Amaral",
+            "email": "jeff@colab.coop",
+            "homepage": "https://www.drupal.org/u/jeffam",
+            "role": "Developer"
+        },
+        {
+            "name": "Ajit Shinde",
+            "email": "ajit@colab.coop",
+            "homepage": "https://www.drupal.org/u/ajits",
+            "role": "Developer"
+        }
+    ]
+}
