@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Since the search form GETs rather than POSTs, this will remove a bunch of Drupal-
+ * specific parameters.
+ */
+function simple_gse_search_form_simple_gse_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  unset($form['form_token']);
+  unset($form['form_build_id']);
+  unset($form['form_id']);
+}
