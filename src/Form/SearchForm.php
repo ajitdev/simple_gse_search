@@ -34,7 +34,7 @@ class SearchForm extends FormBase {
     ];
 
     $form['#attributes'] = ['class' => ['SearchForm']];
-    $form['#action'] = 'search';
+    $form['#action'] = '/search';
     $form['#method'] = 'get';
 
     return $form;
