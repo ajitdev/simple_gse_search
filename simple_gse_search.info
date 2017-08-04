@@ -1,5 +1,0 @@
-name = Simple GSE Search
-description = Provides basic integration with Google Custom Search Engine
-core = 7.x
-package = Search
-version = 7.x-1.0

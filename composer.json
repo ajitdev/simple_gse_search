@@ -1,19 +1,19 @@
 {
     "name": "colab-coop/simple_gse_search",
-    "type": "module",
+    "type": "drupal-module",
+    "version": "8.x-1.0",
     "description": "Provides basic integration with Google Custom Search Engine",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name": "Jeff Amaral",
-            "email": "jeff@colab.coop",
             "homepage": "https://www.drupal.org/u/jeffam",
-            "role": "Developer"
+            "role": "Author : Drupal 7 version"
         },
         {
             "name": "Ajit Shinde",
-            "email": "ajit@colab.coop",
             "homepage": "https://www.drupal.org/u/ajits",
-            "role": "Developer"
+            "role": "Ported to Drupal 8"
         }
     ]
 }
