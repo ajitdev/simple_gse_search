@@ -25,10 +25,13 @@ class SettingsForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('simple_gse_search.settings');
-    $form['simple_gse_search_cx'] = array(
+    $url = \Drupal\Core\Url::fromUri('https://www.google.com/cse');
+    $cse_link = \Drupal::l(t('https://www.google.com/cse'), $url);
+    $form['cx'] = array(
       '#type' => 'textfield',
-      '#title' => $this->t('GSE Search ID'),
-      '#default_value' => $config->get('simple_gse_search_cx'),
+      '#title' => $this->t('Google Custom Search Engine ID'),
+      '#description' => $this->t('Get your custom search engine ID from %search_engine', ['%search_engine' => $cse_link]),
+      '#default_value' => $config->get('cx'),
     );
     return parent::buildForm($form, $form_state);
   }
@@ -40,7 +43,7 @@ class SettingsForm extends ConfigFormBase {
     $values = $form_state->getValues();
     $gse_settings = $this->config('simple_gse_search.settings');
 
-    $gse_settings->set('simple_gse_search_cx', $values['simple_gse_search_cx'])
+    $gse_settings->set('cx', $values['cx'])
       ->save();
 
     parent::submitForm($form, $form_state);

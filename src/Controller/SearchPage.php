@@ -34,7 +34,7 @@ class SearchPage extends ControllerBase {
         'library' => ['simple_gse_search/search'],
         'drupalSettings' => [
           'simple_gse_search' => [
-            'simple_gse_search_cx' => $this->searchConfig->get('simple_gse_search_cx'),
+            'cx' => $this->searchConfig->get('cx'),
           ]
         ]
       ],
