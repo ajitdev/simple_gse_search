@@ -12,4 +12,4 @@ simple_gse_search.search_page:
     _controller: '\Drupal\simple_gse_search\Controller\SearchPage::displaySearchResults'
     _title: 'Search results'
   requirements:
-    _permission: 'access content'
+    _permission: 'access gse search page'
